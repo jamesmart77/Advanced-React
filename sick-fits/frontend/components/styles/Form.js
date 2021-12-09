@@ -41,6 +41,7 @@ const Form = styled.form`
     width: auto;
     background: red;
     color: white;
+    cursor: pointer;
     border: 0;
     font-size: 2rem;
     font-weight: 600;

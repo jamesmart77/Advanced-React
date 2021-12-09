@@ -1,3 +1,2 @@
-export default function IndexPage() {
-  return <p>Hello!</p>;
-}
+// make products component the same for landing page
+export { default } from './products';
