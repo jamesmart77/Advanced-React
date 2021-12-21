@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import { perPage } from '../config';
 import Product from './Product';
 
 export const ALL_PRODUCTS_QUERY = gql`
-  query ALL_PRODUCTS_QUERY {
-    allProducts {
+  query ALL_PRODUCTS_QUERY($skip: Int = 0, $first: Int) {
+    allProducts(first: $first, skip: $skip) {
       id
       name
       price
@@ -26,13 +27,15 @@ const ProductsList = styled.div`
   grid-gap: 60px;
 `;
 
-export default function Products() {
+// eslint-disable-next-line react/prop-types
+export default function Products({ page }) {
   // apollo will look at its cache first for optimization
-  const { data, error, loading } = useQuery(ALL_PRODUCTS_QUERY);
-
-  console.log(data);
-  // console.log(error);
-  // console.log(loading);
+  const { data, error, loading } = useQuery(ALL_PRODUCTS_QUERY, {
+    variables: {
+      skip: page * perPage - perPage,
+      first: perPage,
+    },
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message} </p>;
